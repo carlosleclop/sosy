@@ -26,7 +26,6 @@ public class Sosy {
     ControlWindow controlWindow = new ControlWindow (canvas, universe);
     // Se muestra la ventana principal de la aplicación
     controlWindow.showWindow ();
-    
   }
   
 }
