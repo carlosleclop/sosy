@@ -13,13 +13,13 @@ import javax.media.j3d.Texture;
  * @author CARLOS
  */
 abstract public class Astro extends BranchGroup {
-    double radio;
+    float radio;
     Texture tx;
     
-    public double getRadio(){
+    public float getRadio(){
         return radio;
     }
-    public void setRadio(double r){
+    public void setRadio(float r){
         radio = r;
     }
     public Texture getTexture(){

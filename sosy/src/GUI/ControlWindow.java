@@ -9,14 +9,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
+
+import Astros.*;
+
 /**
  *
  * @author fvelasco
  */
 public class ControlWindow extends JFrame {
-  private TheUniverse universe;
+  private Universo universe;
 
-  public ControlWindow(Canvas3D canvas, TheUniverse anUniverse) {
+  public ControlWindow(Canvas3D canvas, Universo anUniverse) {
     super();
     universe = anUniverse;
     initComponents();
@@ -32,6 +35,7 @@ public class ControlWindow extends JFrame {
     pack();
   }
 
+  
   /**
    * This method is called from within the constructor to initialize the form.
    * WARNING: Do NOT modify this code. The content of this method is always
@@ -172,37 +176,37 @@ public class ControlWindow extends JFrame {
 
   private void cubeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cubeActionPerformed
     // TODO add your handling code here:
-    universe.setPrimitive(PrimitiveBranches.Cube);
+//    universe.setPrimitive(PrimitiveBranches.Cube);
   }//GEN-LAST:event_cubeActionPerformed
 
   private void sphereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sphereActionPerformed
     // TODO add your handling code here:
-    universe.setPrimitive(PrimitiveBranches.Ball);
+//    universe.setPrimitive(PrimitiveBranches.Ball);
   }//GEN-LAST:event_sphereActionPerformed
 
   private void colorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorActionPerformed
     // TODO add your handling code here:
-    universe.setAppearance(Appearances.Color);
+//    universe.setAppearance(Appearances.Color);
   }//GEN-LAST:event_colorActionPerformed
 
   private void textureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textureActionPerformed
     // TODO add your handling code here:
-    universe.setAppearance (Appearances.Texture);
+//    universe.setAppearance (Appearances.Texture);
   }//GEN-LAST:event_textureActionPerformed
 
   private void light1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_light1ActionPerformed
     // TODO add your handling code here:
-    universe.setLightsOnOff(1, light1.isSelected());
+//    universe.setLightsOnOff(1, light1.isSelected());
   }//GEN-LAST:event_light1ActionPerformed
 
   private void light2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_light2ActionPerformed
     // TODO add your handling code here:
-    universe.setLightsOnOff(2, light2.isSelected());
+//    universe.setLightsOnOff(2, light2.isSelected());
   }//GEN-LAST:event_light2ActionPerformed
 
   private void rotationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotationActionPerformed
     // TODO add your handling code here:
-    universe.setRotationOnOff(rotation.isSelected());
+//    universe.setRotationOnOff(rotation.isSelected());
   }//GEN-LAST:event_rotationActionPerformed
 
   private void exitAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitAppActionPerformed
@@ -212,7 +216,7 @@ public class ControlWindow extends JFrame {
 
   private void axesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_axesActionPerformed
     // TODO add your handling code here:
-    universe.showAxes(axes.isSelected());
+//    universe.showAxes(axes.isSelected());
   }//GEN-LAST:event_axesActionPerformed
 
   public void showWindow () {

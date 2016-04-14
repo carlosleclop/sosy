@@ -43,9 +43,13 @@ public class TheUniverse {
     axes = new TheAxes (10.0f);
     root.addChild(axes);
     
+    
+
     // Se crea y se añade la escena al universo
     scene = new TheScene (); 
     root.addChild(scene);
+    
+    
     
     // Se crea el universo. La parte de la vista
     SimpleUniverse universe = createUniverse (canvas);
