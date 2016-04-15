@@ -12,10 +12,13 @@ import javax.media.j3d.Background;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
+import javax.media.j3d.ColoringAttributes;
+import javax.media.j3d.Material;
 import javax.media.j3d.Texture;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.View;
+import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
@@ -40,11 +43,13 @@ public class Universo {
     
     background = new Background();
 //    background.setApplicationBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
-    background.setApplicationBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));    
+    background.setApplicationBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 10000.0));    
     Appearance app = new Appearance();
-    Texture texture = new TextureLoader("imgs/back.jpg", null).getTexture();
-    app.setTexture( texture );
-    
+    //Texture texture = new TextureLoader("imgs/back.jpg", null).getTexture();
+    //app.setTexture( texture );
+    ColoringAttributes unColorPlano = new ColoringAttributes( new Color3f(0,0,0) , ColoringAttributes.SHADE_FLAT) ;
+    app.setColoringAttributes(unColorPlano) ;
+
     Primitive sphere = new Sphere (1.0f, Primitive.GENERATE_TEXTURE_COORDS | Primitive.GENERATE_NORMALS_INWARD, app);
 
     BranchGroup bgGeometry = new BranchGroup();
@@ -94,7 +99,8 @@ public class Universo {
 
     // El comportamiento, para mover la camara con el raton
     OrbitBehavior orbit = new OrbitBehavior(canvas, OrbitBehavior.REVERSE_ALL);
-    orbit.setSchedulingBounds(new BoundingSphere(new Point3d (0.0f, 0.0f, 0.0f), 100.0f));
+//    orbit.setSchedulingBounds(new BoundingSphere(new Point3d (0.0f, 0.0f, 0.0f), 100.0f));
+    orbit.setSchedulingBounds(new BoundingSphere(new Point3d (0.0f, 0.0f, 0.0f), 10000.0f));
     orbit.setZoomFactor (2.0f);
     viewingPlatform.setViewPlatformBehavior(orbit);
     
@@ -102,7 +108,8 @@ public class Universo {
     Viewer viewer = new Viewer (canvas);
     View view = viewer.getView();
     view.setFieldOfView(Math.toRadians(45));
-    view.setBackClipDistance(50.0);
+//    view.setBackClipDistance(50.0);
+    view.setBackClipDistance(5000.0);
 
     // Se construye y devuelve el Universo con los parametros definidos
     return new SimpleUniverse (viewingPlatform, viewer);

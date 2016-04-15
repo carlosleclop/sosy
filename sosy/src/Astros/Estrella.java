@@ -12,7 +12,9 @@ import com.sun.j3d.utils.image.TextureLoader;
 import java.util.ArrayList;
 import javax.media.j3d.Appearance;
 import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Light;
 import javax.media.j3d.Material;
+import javax.media.j3d.PointLight;
 import javax.media.j3d.Texture;
 import javax.media.j3d.TextureAttributes;
 import javax.vecmath.Color3f;
@@ -23,7 +25,8 @@ import javax.vecmath.Color3f;
  */
 public class Estrella extends Astro {
     ArrayList <Planeta> planetas;
-    Material luz;
+    Material mt;
+ //   Light luz;
     private BranchGroup bg;
     
     Estrella(){
@@ -44,7 +47,7 @@ public class Estrella extends Astro {
         ap.setTexture (aTexture);
         ap.setMaterial (new Material (
             new Color3f (0.20f, 0.20f, 0.20f),   // Color ambiental
-            new Color3f (0.00f, 0.00f, 0.00f),   // Color emisivo
+            new Color3f (1.00f, 0.95f, 0.90f),   // Color emisivo
             new Color3f (0.50f, 0.50f, 0.50f),   // Color difuso
             new Color3f (0.70f, 0.70f, 0.70f),   // Color especular
             17.0f ));                            // Brillo
@@ -61,12 +64,18 @@ public class Estrella extends Astro {
     }
     public ArrayList <Planeta> getPlanetas(){
         return planetas;
-    }
-    public Material getLuz(){
+    }/*
+    public Light getLuz(){
         return luz;
     }
-    public void setLuz(Material m){
+    public void setLuz(Light m){
         luz = m;
+    }*/
+    public Material getMaterial(){
+        return mt;
+    }
+    public void setMaterial(Material m){
+        mt = m;
     }
     
     public BranchGroup get(){

@@ -44,12 +44,20 @@ public class Planeta extends AstroOpaco {
         Appearance ap = new Appearance();
         Texture aTexture = new TextureLoader ("imgs/tierra.jpg", null).getTexture();
         ap.setTexture (aTexture);
-        ap.setMaterial (new Material (
+
+/*        ap.setMaterial (new Material (
             new Color3f (0.20f, 0.20f, 0.20f),   // Color ambiental
             new Color3f (0.00f, 0.00f, 0.00f),   // Color emisivo
             new Color3f (0.50f, 0.50f, 0.50f),   // Color difuso
             new Color3f (0.70f, 0.70f, 0.70f),   // Color especular
-            17.0f ));                            // Brillo
+            5.0f ));                            // Brillo
+        */
+        ap.setMaterial (new Material (
+            new Color3f (0.20f, 0.20f, 0.20f),   // Color ambiental
+            new Color3f (0.00f, 0.00f, 0.00f),   // Color emisivo
+            new Color3f (0.50f, 0.50f, 0.50f),   // Color difuso
+            new Color3f (0.40f, 0.40f, 0.40f),   // Color especular
+            6.0f ));                            // Brillo
         TextureAttributes ta = new TextureAttributes();
         ta.setTextureMode(TextureAttributes.MODULATE);
         ap.setTextureAttributes(ta);

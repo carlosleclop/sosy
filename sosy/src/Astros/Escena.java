@@ -13,12 +13,14 @@ import javax.media.j3d.BranchGroup;
 import javax.media.j3d.DirectionalLight;
 import javax.media.j3d.Light;
 import javax.media.j3d.Material;
+import javax.media.j3d.PointLight;
 import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Texture;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
+import javax.vecmath.Point3f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
@@ -43,7 +45,7 @@ public class Escena extends BranchGroup {
 
 
         // Rotación de la estrella
-        TransformGroup rotEstrella = createRotation(0);
+        TransformGroup rotEstrella = createRotation(100000);
         Estrella sol = new Estrella(10.0f);
         rotEstrella.addChild(sol);
         todo.addChild(rotEstrella);
@@ -55,8 +57,10 @@ public class Escena extends BranchGroup {
 
         TransformGroup rotacionTierra = createRotation(10000);
         TransformGroup desplazamientoTierra = createTranslate(40);
+        TransformGroup rotacionTierra2 = createRotation(3000);
         Planeta tierra = new Planeta(5.0f);
-        desplazamientoTierra.addChild(tierra);
+        rotacionTierra2.addChild(tierra);
+        desplazamientoTierra.addChild(rotacionTierra2);
         rotacionTierra.addChild(desplazamientoTierra);
         todo.addChild(rotacionTierra);
 
@@ -66,13 +70,25 @@ public class Escena extends BranchGroup {
         this.addChild(todo);
     }
     private void crearLuces(BranchGroup bg){
+
         // LUZ AMBIENTE
          Light aLight;
-         aLight = new AmbientLight (new Color3f (0.2f, 0.2f, 0.2f));
+         //aLight = new AmbientLight (new Color3f (0.2f, 0.2f, 0.2f));
+         aLight = new AmbientLight (new Color3f (0.5f, 0.5f, 0.5f));
          aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
          aLight.setEnable(true);
          bg.addChild(aLight);
-        
+         
+        // LUZ DEL SOL
+         Color3f white = new Color3f (1.0f, 1.0f, 1.0f);
+        // Vector3f direction = new Vector3f (-4.0f, -2.0f, -3.0f);
+         aLight = new PointLight (true, new Color3f (1.0f, 0.9f, 0.9f), new Point3f(0,0,0), new Point3f(1,0,0));
+         aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 10000.0));
+         aLight.setCapability(Light.ALLOW_STATE_WRITE);
+         aLight.setEnable (true);
+         bg.addChild(aLight);
+
+        /*
         // PRIMERA LUZ
          Color3f white;
          Vector3f direction;
@@ -89,7 +105,7 @@ public class Escena extends BranchGroup {
          aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
          aLight.setCapability(Light.ALLOW_STATE_WRITE);
          aLight.setEnable (true);
-         bg.addChild(aLight);
+         bg.addChild(aLight);*/
     }
     public Material getLuzEscena(){
         return luz;
