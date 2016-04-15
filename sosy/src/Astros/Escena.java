@@ -19,6 +19,7 @@ import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 
@@ -40,12 +41,36 @@ public class Escena extends BranchGroup {
         astros = new ArrayList <> ();
         todo = new BranchGroup();
 
-        // LUZ AMBIENTE
+
+        // Rotación de la estrella
+        TransformGroup rotEstrella = createRotation();
+        Estrella sol = new Estrella(10.0f);
+        rotEstrella.addChild(sol);
+        todo.addChild(rotEstrella);
+                
+/*        TransformGroup desplazamientoTierra = createTranslate();
+        Planeta tierra = new Planeta(5.0f);
+        desplazamientoTierra.addChild(tierra);
+        todo.addChild(desplazamientoTierra);*/
+
+        TransformGroup rotacionTierra = createRotation();
+        TransformGroup desplazamientoTierra = createTranslate();
+        Planeta tierra = new Planeta(5.0f);
+        desplazamientoTierra.addChild(tierra);
+        rotacionTierra.addChild(desplazamientoTierra);
+        todo.addChild(rotacionTierra);
+
+
+        //todo.addChild(tierra);
+        crearLuces(this);
+        this.addChild(todo);
+    }
+    private void crearLuces(BranchGroup bg){        // LUZ AMBIENTE
          Light aLight;
          aLight = new AmbientLight (new Color3f (0.2f, 0.2f, 0.2f));
          aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
          aLight.setEnable(true);
-         this.addChild(aLight);
+         bg.addChild(aLight);
         
         // PRIMERA LUZ
          Color3f white;
@@ -56,23 +81,14 @@ public class Escena extends BranchGroup {
          aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
          aLight.setCapability(Light.ALLOW_STATE_WRITE);
          aLight.setEnable (true);
-         this.addChild(aLight);
+         bg.addChild(aLight);
 
         // SEGUNDA LUZ
          aLight = new DirectionalLight (new Color3f (0.7f, 0.7f, 0.7f), new Vector3f (3.0f, 2.0f, 0.0f));
          aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
          aLight.setCapability(Light.ALLOW_STATE_WRITE);
          aLight.setEnable (true);
-         this.addChild(aLight);
-
-         
-        // Rotación de la estrella
-        TransformGroup rotEstrella = createRotation();
-        Estrella sol = new Estrella(10.0f);
-        rotEstrella.addChild(sol);
-        todo.addChild(rotEstrella);
-        
-        this.addChild(todo);
+         bg.addChild(aLight);
     }
     public Material getLuzEscena(){
         return luz;
@@ -113,7 +129,6 @@ public class Escena extends BranchGroup {
         }
     }
     
-    
     private TransformGroup createRotation () {
         // Se crea el grupo que contendrá la transformación de rotación
         // Todo lo que cuelgue de él rotará
@@ -132,6 +147,16 @@ public class Escena extends BranchGroup {
         rotator.setEnable(true);
         // Se cuelga del grupo de transformación y este se devuelve
         transform.addChild(rotator);
+        return transform;
+    }
+    private TransformGroup createTranslate(){
+        TransformGroup transform = new TransformGroup ();
+        
+        Transform3D tr = new Transform3D ();
+        tr.setTranslation( new Vector3d(20.0,0,0) );
+        
+        transform.setTransform(tr);
+        
         return transform;
     }
     

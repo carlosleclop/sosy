@@ -38,7 +38,7 @@ public class Estrella extends Astro {
                     64, getAppearance() ));
         this.addChild(bg);
     }
-    public Appearance getAppearance(){
+    private Appearance getAppearance(){
         Appearance ap = new Appearance();
         Texture aTexture = new TextureLoader ("imgs/sol.jpg", null).getTexture();
         ap.setTexture (aTexture);
