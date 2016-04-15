@@ -75,7 +75,7 @@ public class Escena extends BranchGroup {
          Light aLight;
          //aLight = new AmbientLight (new Color3f (0.2f, 0.2f, 0.2f));
          aLight = new AmbientLight (new Color3f (0.5f, 0.5f, 0.5f));
-         aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
+         aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 10000.0));
          aLight.setEnable(true);
          bg.addChild(aLight);
          
@@ -164,7 +164,7 @@ public class Escena extends BranchGroup {
             0.0f, (float) Math.PI*2.0f);
         
         // Se le pone el entorno de activación y se activa
-        rotator.setSchedulingBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0 ), 100.0));
+        rotator.setSchedulingBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0 ), 10000.0));
         rotator.setEnable(true);
         // Se cuelga del grupo de transformación y este se devuelve
         transform.addChild(rotator);

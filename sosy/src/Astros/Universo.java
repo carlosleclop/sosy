@@ -4,6 +4,7 @@ import com.sun.j3d.utils.behaviors.vp.OrbitBehavior;
 import com.sun.j3d.utils.geometry.Primitive;
 import com.sun.j3d.utils.geometry.Sphere;
 import com.sun.j3d.utils.image.TextureLoader;
+import com.sun.j3d.utils.universe.PlatformGeometry;
 import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.universe.Viewer;
 import com.sun.j3d.utils.universe.ViewingPlatform;
@@ -56,6 +57,8 @@ public class Universo {
     bgGeometry.addChild(sphere);
     background.setGeometry(bgGeometry);
     
+    
+    
     root.addChild(background);
     
     // Se crea y se añade el fondo
@@ -79,6 +82,8 @@ public class Universo {
     // Se crea el universo. La parte de la vista
     SimpleUniverse universe = createUniverse (canvas);
     
+    
+    
     // Se optimiza la escena y se cuelga del universo
     root.compile();
     universe.addBranchGraph(root);
@@ -93,9 +98,12 @@ public class Universo {
     // La transformación de vista, dónde se está, a dónde se mira, Vup
     TransformGroup viewTransformGroup = viewingPlatform.getViewPlatformTransform();
     Transform3D viewTransform3D = new Transform3D();
-    viewTransform3D.lookAt (new Point3d (20,20,20), new Point3d (0,0,0), new Vector3d (0,1,0));
+    viewTransform3D.lookAt (new Point3d (50,50,1), new Point3d (0,0,0), new Vector3d (0,1,0));
     viewTransform3D.invert();
+    
     viewTransformGroup.setTransform (viewTransform3D);
+    
+// NO ES viewingPlatform.setBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
 
     // El comportamiento, para mover la camara con el raton
     OrbitBehavior orbit = new OrbitBehavior(canvas, OrbitBehavior.REVERSE_ALL);
@@ -110,6 +118,7 @@ public class Universo {
     view.setFieldOfView(Math.toRadians(45));
 //    view.setBackClipDistance(50.0);
     view.setBackClipDistance(5000.0);
+
 
     // Se construye y devuelve el Universo con los parametros definidos
     return new SimpleUniverse (viewingPlatform, viewer);
