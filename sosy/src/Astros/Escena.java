@@ -43,7 +43,7 @@ public class Escena extends BranchGroup {
 
 
         // Rotación de la estrella
-        TransformGroup rotEstrella = createRotation();
+        TransformGroup rotEstrella = createRotation(0);
         Estrella sol = new Estrella(10.0f);
         rotEstrella.addChild(sol);
         todo.addChild(rotEstrella);
@@ -53,8 +53,8 @@ public class Escena extends BranchGroup {
         desplazamientoTierra.addChild(tierra);
         todo.addChild(desplazamientoTierra);*/
 
-        TransformGroup rotacionTierra = createRotation();
-        TransformGroup desplazamientoTierra = createTranslate();
+        TransformGroup rotacionTierra = createRotation(10000);
+        TransformGroup desplazamientoTierra = createTranslate(40);
         Planeta tierra = new Planeta(5.0f);
         desplazamientoTierra.addChild(tierra);
         rotacionTierra.addChild(desplazamientoTierra);
@@ -65,7 +65,8 @@ public class Escena extends BranchGroup {
         crearLuces(this);
         this.addChild(todo);
     }
-    private void crearLuces(BranchGroup bg){        // LUZ AMBIENTE
+    private void crearLuces(BranchGroup bg){
+        // LUZ AMBIENTE
          Light aLight;
          aLight = new AmbientLight (new Color3f (0.2f, 0.2f, 0.2f));
          aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
@@ -130,6 +131,9 @@ public class Escena extends BranchGroup {
     }
     
     private TransformGroup createRotation () {
+        return createRotation (4000);
+    }
+    private TransformGroup createRotation (int velocidad) {
         // Se crea el grupo que contendrá la transformación de rotación
         // Todo lo que cuelgue de él rotará
         TransformGroup transform = new TransformGroup ();
@@ -138,10 +142,11 @@ public class Escena extends BranchGroup {
         // Se crea la matriz de rotación
         Transform3D yAxis = new Transform3D ();
         // Se crea un interpolador, un valor numérico que se ira modificando en tiempo de ejecución
-        value = new Alpha (-1, Alpha.INCREASING_ENABLE, 0, 0, 4000, 0, 0, 0, 0, 0);
+        value = new Alpha (-1, Alpha.INCREASING_ENABLE, 0, 0, velocidad, 0, 0, 0, 0, 0);
         // Se crea el interpolador de rotación, las figuras iran rotando
         RotationInterpolator rotator = new RotationInterpolator (value, transform, yAxis,
             0.0f, (float) Math.PI*2.0f);
+        
         // Se le pone el entorno de activación y se activa
         rotator.setSchedulingBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0 ), 100.0));
         rotator.setEnable(true);
@@ -149,11 +154,11 @@ public class Escena extends BranchGroup {
         transform.addChild(rotator);
         return transform;
     }
-    private TransformGroup createTranslate(){
+    private TransformGroup createTranslate(double distancia){
         TransformGroup transform = new TransformGroup ();
         
         Transform3D tr = new Transform3D ();
-        tr.setTranslation( new Vector3d(20.0,0,0) );
+        tr.setTranslation( new Vector3d(distancia,0,0) );
         
         transform.setTransform(tr);
         

@@ -39,8 +39,8 @@ public class Universo {
     BranchGroup root = new BranchGroup();
     
     background = new Background();
-    background.setApplicationBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
-    
+//    background.setApplicationBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
+    background.setApplicationBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));    
     Appearance app = new Appearance();
     Texture texture = new TextureLoader("imgs/back.jpg", null).getTexture();
     app.setTexture( texture );
