@@ -110,14 +110,12 @@ public class Escena extends BranchGroup {
     
     public void actPlay(){
         for (Astro a : astros){
-            System.out.println("PLAY" + a.getClass().toString() );
             a.actPlay();
         }
     }
 
     public void actPause(){
         for (Astro a : astros){
-            System.out.println("PAUSE" + a.getClass().toString() );
             a.actPause();
         }
     }
