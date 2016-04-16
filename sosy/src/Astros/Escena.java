@@ -11,6 +11,7 @@ import javax.media.j3d.AmbientLight;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.DirectionalLight;
+import javax.media.j3d.Group;
 import javax.media.j3d.Light;
 import javax.media.j3d.Material;
 import javax.media.j3d.PointLight;
@@ -44,40 +45,45 @@ public class Escena extends BranchGroup {
         todo = new BranchGroup();
 
 
-        // Rotación de la estrella
-        TransformGroup rotEstrella = createRotation(100000);
-        Estrella sol = new Estrella(10.0f);
-        rotEstrella.addChild(sol);
-        todo.addChild(rotEstrella);
-                
-/*        TransformGroup desplazamientoTierra = createTranslate();
-        Planeta tierra = new Planeta(5.0f);
-        desplazamientoTierra.addChild(tierra);
-        todo.addChild(desplazamientoTierra);*/
+        // Sol
+         TransformGroup rotEstrella = createRotation(100000);
+         Estrella sol = new Estrella(10.0f);
+         rotEstrella.addChild(sol);
+         todo.addChild(rotEstrella);
 
-        TransformGroup rotacionTierra = createRotation(10000);      // Rotación sobre el sol
-        TransformGroup desplazamientoTierra = createTranslate(40);  // Traslada a más lejos
-        TransformGroup rotacionTierra2 = createRotation(3000);      // Rotación propia
-        Planeta tierra = new Planeta(5.0f);
-        rotacionTierra2.addChild(tierra);
-        desplazamientoTierra.addChild(rotacionTierra2);
-        
-        Planeta luna = new Planeta(2.0f);
-        TransformGroup rotacionLunaSobreTierra = createRotation(1000);
-        TransformGroup desplazamientoLuna = createTranslate(10);
-        desplazamientoLuna.addChild(luna);
-        rotacionLunaSobreTierra.addChild(desplazamientoLuna);
-        
-        desplazamientoTierra.addChild(rotacionLunaSobreTierra);
-        
-        rotacionTierra.addChild(desplazamientoTierra);
-        todo.addChild(rotacionTierra);
+        TransformGroup tierraDesplazada = nuevoPlaneta(5.0f, "imgs/tierra.jpg", 3000, 40, 10000);
+        TransformGroup luna = nuevoSatelite(2.0f, "imgs/moon.jpg", 0, 10, 1000);
 
+        tierraDesplazada.addChild(luna);
+        
+        todo.addChild(tierraDesplazada.getParent());
 
-        //todo.addChild(tierra);
         crearLuces(this);
         this.addChild(todo);
     }
+    
+    private TransformGroup nuevoPlaneta(double radio, String texture, int velocidadRotacion, double distanciaAlSol, int velocidadRotacionSol){
+        TransformGroup rotacionSol = createRotation(velocidadRotacionSol);      // Rotación sobre el sol
+        TransformGroup desplazamiento = createTranslate(distanciaAlSol);  // Traslada a más lejos
+        TransformGroup rotacionPropia = createRotation(velocidadRotacion);      // Rotación propia
+        Planeta planeta = new Planeta((float) radio, texture);
+        rotacionPropia.addChild(planeta);
+        desplazamiento.addChild(rotacionPropia);
+        rotacionSol.addChild(desplazamiento);
+        return desplazamiento;
+    }
+    
+    private TransformGroup nuevoSatelite(double radio, String texture, int velocidadRotacion, double distanciaAlPlaneta, int velocidadRotacionPlaneta){
+        TransformGroup rotacionPlaneta = createRotation(velocidadRotacionPlaneta);      // Rotación sobre el sol
+        TransformGroup desplazamiento = createTranslate(distanciaAlPlaneta);  // Traslada a más lejos
+        TransformGroup rotacionPropia = createRotation(velocidadRotacion);      // Rotación propia
+        Satelite satelite = new Satelite((float) radio, texture);
+        rotacionPropia.addChild(satelite);
+        desplazamiento.addChild(rotacionPropia);
+        rotacionPlaneta.addChild(desplazamiento);
+        return rotacionPlaneta;
+    }
+    
     private void crearLuces(BranchGroup bg){
 
         // LUZ AMBIENTE
