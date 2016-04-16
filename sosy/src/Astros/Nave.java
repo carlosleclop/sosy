@@ -5,21 +5,58 @@
  */
 package Astros;
 
+import com.sun.j3d.loaders.IncorrectFormatException;
+import com.sun.j3d.loaders.ParsingErrorException;
+import com.sun.j3d.loaders.Scene;
+import com.sun.j3d.loaders.objectfile.ObjectFile;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Texture;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
 import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
 /**
  *
  * @author CARLOS
  */
-public class Nave {
+public class Nave extends TransformGroup{
     ArrayList <Point3d> puntosTrayectoria;
     ArrayList <Point3d> puntosOrientacion;
     Texture textura;
+    TransformGroup tg;
+    BranchGroup bg;
     
     Nave(){
         
+        tg = new TransformGroup();
+          Transform3D tf = new Transform3D();
+           tf.setTranslation( new Vector3d(50,0,0) );
+          Transform3D escalado = new Transform3D();
+           escalado.setScale(2);
+          tf.mul(escalado);
+        tg.setTransform(tf);
+        bg = new BranchGroup();
+          
+        Scene modelo = null; 
+        ObjectFile archivo = new ObjectFile (ObjectFile.RESIZE | ObjectFile.STRIPIFY | ObjectFile.TRIANGULATE );
+        try {
+            modelo = archivo.load ("imgs/naveEspacial/naveEspacial.obj");
+        } catch (FileNotFoundException e) {
+            System.err.println (e);
+            System.exit(1);
+        } catch (ParsingErrorException e) {
+            System.err.println (e);
+            System.exit(1);
+        } catch (IncorrectFormatException e) {
+            System.err.println (e);
+            System.exit(1);
+        }
+        bg.addChild ( modelo.getSceneGroup() );
+        tg.addChild(bg);
+        this.addChild(tg);
     }
     public ArrayList <Point3d> getPuntosTrayectoria(){
         return puntosTrayectoria;

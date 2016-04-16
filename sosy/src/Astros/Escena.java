@@ -35,6 +35,7 @@ public class Escena extends BranchGroup {
     Texture texturaEscena;
     Material luz;
     ArrayList <Astro> astros;
+    Nave nave;
     
     BranchGroup todo;
         
@@ -42,13 +43,19 @@ public class Escena extends BranchGroup {
         astros = new ArrayList <> ();
         todo = new BranchGroup();
         
+        nave = new Nave();
+        todo.addChild(nave);
+        
         Estrella sol = new Estrella(10.0f, "imgs/sol.jpg", 100000);
           Planeta tierra = new Planeta(5.0f, "imgs/tierra.jpg", 3000, 40, 10000);
             Satelite luna = new Satelite(2.0f, "imgs/moon.jpg", 0, 10, 1000);
           tierra.addSatelite(luna);
         sol.addPlaneta(tierra);
         
-        todo.addChild(sol);
+        //todo.addChild(sol);
+        
+        Anillo anillo = new Anillo(1,500,100);
+        todo.addChild(anillo);
         
         crearLuces(this);
         this.addChild(todo);
