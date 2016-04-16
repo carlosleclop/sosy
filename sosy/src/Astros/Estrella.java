@@ -27,23 +27,26 @@ public class Estrella extends Astro {
     ArrayList <Planeta> planetas;
     Material mt;
  //   Light luz;
-    private BranchGroup bg;
-    
-    Estrella(){
-        
-    }
-    Estrella(float radio){
+    private final BranchGroup bg;
+   
+    Estrella(float radio, String texture, int velocidadRotacion){
+        planetas = new ArrayList <> ();
         this.radio = radio;
         bg = new BranchGroup();
         bg.addChild(
                 new Sphere (radio, 
                     Primitive.GENERATE_NORMALS | Primitive.GENERATE_TEXTURE_COORDS | Primitive.ENABLE_APPEARANCE_MODIFY, 
-                    64, getAppearance() ));
-        this.addChild(bg);
+                    64, getAppearance(texture) ));
+        
+        crearRotacionPropia(velocidadRotacion);
+        rotacionPropia.addChild(bg);
+        
+        this.addChild(rotacionPropia);
+
     }
-    private Appearance getAppearance(){
+    private Appearance getAppearance(String texture){
         Appearance ap = new Appearance();
-        Texture aTexture = new TextureLoader ("imgs/sol.jpg", null).getTexture();
+        Texture aTexture = new TextureLoader (texture, null).getTexture();
         ap.setTexture (aTexture);
         ap.setMaterial (new Material (
             new Color3f (0.20f, 0.20f, 0.20f),   // Color ambiental
@@ -58,6 +61,7 @@ public class Estrella extends Astro {
         return ap;
     }
     public void addPlaneta(Planeta p){
+        this.addChild(p);
         planetas.add(p);
     }
     public void deletePlaneta(Planeta p){

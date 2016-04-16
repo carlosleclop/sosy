@@ -9,12 +9,19 @@ import com.sun.j3d.utils.geometry.Primitive;
 import com.sun.j3d.utils.geometry.Sphere;
 import com.sun.j3d.utils.image.TextureLoader;
 import java.util.ArrayList;
+import javax.media.j3d.Alpha;
 import javax.media.j3d.Appearance;
+import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Material;
+import javax.media.j3d.RotationInterpolator;
 import javax.media.j3d.Texture;
 import javax.media.j3d.TextureAttributes;
+import javax.media.j3d.Transform3D;
+import javax.media.j3d.TransformGroup;
 import javax.vecmath.Color3f;
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
 /**
  *
@@ -25,58 +32,34 @@ public class Planeta extends AstroOpaco {
     ArrayList <Satelite> satelites;
     ArrayList <Anillo> anillos;
     private BranchGroup bg;
-    
-    Planeta(){
-        
-    }
-    Planeta(float radio){
-        this.radio = radio;
-        bg = new BranchGroup();
-        bg.addChild(
-                new Sphere (radio, 
-                    Primitive.GENERATE_NORMALS | Primitive.GENERATE_TEXTURE_COORDS | Primitive.ENABLE_APPEARANCE_MODIFY, 
-                    64, getAppearance("imgs/tierra.jpg") ));
-        this.addChild(bg);
-    }
-    Planeta(float radio, String textureString){
+
+    Planeta(float radio, String textureString, int velocidadRotacion, double distanciaSol, int velocidadRotacionSol){
+        satelites = new ArrayList <> ();
+        anillos = new ArrayList <> ();
         this.radio = radio;
         bg = new BranchGroup();
         bg.addChild(
                 new Sphere (radio, 
                     Primitive.GENERATE_NORMALS | Primitive.GENERATE_TEXTURE_COORDS | Primitive.ENABLE_APPEARANCE_MODIFY, 
                     64, getAppearance(textureString) ));
-        this.addChild(bg);
-    }
 
-    
-    private Appearance getAppearance(String textureString){
-        Appearance ap = new Appearance();
-        Texture aTexture = new TextureLoader (textureString, null).getTexture();
-        ap.setTexture (aTexture);
-
-/*        ap.setMaterial (new Material (
-            new Color3f (0.20f, 0.20f, 0.20f),   // Color ambiental
-            new Color3f (0.00f, 0.00f, 0.00f),   // Color emisivo
-            new Color3f (0.50f, 0.50f, 0.50f),   // Color difuso
-            new Color3f (0.70f, 0.70f, 0.70f),   // Color especular
-            5.0f ));                            // Brillo
-        */
-        ap.setMaterial (new Material (
-            new Color3f (0.20f, 0.20f, 0.20f),   // Color ambiental
-            new Color3f (0.00f, 0.00f, 0.00f),   // Color emisivo
-            new Color3f (0.50f, 0.50f, 0.50f),   // Color difuso
-            new Color3f (0.40f, 0.40f, 0.40f),   // Color especular
-            6.0f ));                            // Brillo
-        TextureAttributes ta = new TextureAttributes();
-        ta.setTextureMode(TextureAttributes.MODULATE);
-        ap.setTextureAttributes(ta);
-        return ap;
+        crearRotacionPropia(velocidadRotacion);
+        crearTranslacion(distanciaSol);
+        crearRotacionSobreAlgo(velocidadRotacionSol);
+        
+        rotacionPropia.addChild(bg);
+        desplazamiento.addChild(rotacionPropia);
+        rotacionCentro.addChild(desplazamiento);
+        
+        this.addChild(rotacionCentro);
     }
 
     public void addSatelite(Satelite s){
+        desplazamiento.addChild(s);
         satelites.add(s);
     }
     public boolean deleteSatelite(Satelite s){
+        desplazamiento.removeChild(s);
         return satelites.remove(s);
     }
     public void addAnillo(Anillo a){

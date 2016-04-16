@@ -206,7 +206,7 @@ public class ControlWindow extends JFrame {
 
   private void rotationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotationActionPerformed
     // TODO add your handling code here:
-//    universe.setRotationOnOff(rotation.isSelected());
+    universe.setRotationOnOff(rotation.isSelected());
   }//GEN-LAST:event_rotationActionPerformed
 
   private void exitAppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitAppActionPerformed

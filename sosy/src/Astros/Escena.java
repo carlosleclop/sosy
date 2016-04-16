@@ -37,51 +37,25 @@ public class Escena extends BranchGroup {
     ArrayList <Astro> astros;
     
     BranchGroup todo;
-    
-    Alpha value; // Rotacion
-    
+        
     Escena(){
         astros = new ArrayList <> ();
         todo = new BranchGroup();
-
-
-        // Sol
-         TransformGroup rotEstrella = createRotation(100000);
-         Estrella sol = new Estrella(10.0f);
-         rotEstrella.addChild(sol);
-         todo.addChild(rotEstrella);
-
-        TransformGroup tierraDesplazada = nuevoPlaneta(5.0f, "imgs/tierra.jpg", 3000, 40, 10000);
-        TransformGroup luna = nuevoSatelite(2.0f, "imgs/moon.jpg", 0, 10, 1000);
-
-        tierraDesplazada.addChild(luna);
         
-        todo.addChild(tierraDesplazada.getParent());
-
+        Estrella sol = new Estrella(10.0f, "imgs/sol.jpg", 100000);
+          Planeta tierra = new Planeta(5.0f, "imgs/tierra.jpg", 3000, 40, 10000);
+            Satelite luna = new Satelite(2.0f, "imgs/moon.jpg", 0, 10, 1000);
+          tierra.addSatelite(luna);
+        sol.addPlaneta(tierra);
+        
+        todo.addChild(sol);
+        
         crearLuces(this);
         this.addChild(todo);
-    }
-    
-    private TransformGroup nuevoPlaneta(double radio, String texture, int velocidadRotacion, double distanciaAlSol, int velocidadRotacionSol){
-        TransformGroup rotacionSol = createRotation(velocidadRotacionSol);      // Rotación sobre el sol
-        TransformGroup desplazamiento = createTranslate(distanciaAlSol);  // Traslada a más lejos
-        TransformGroup rotacionPropia = createRotation(velocidadRotacion);      // Rotación propia
-        Planeta planeta = new Planeta((float) radio, texture);
-        rotacionPropia.addChild(planeta);
-        desplazamiento.addChild(rotacionPropia);
-        rotacionSol.addChild(desplazamiento);
-        return desplazamiento;
-    }
-    
-    private TransformGroup nuevoSatelite(double radio, String texture, int velocidadRotacion, double distanciaAlPlaneta, int velocidadRotacionPlaneta){
-        TransformGroup rotacionPlaneta = createRotation(velocidadRotacionPlaneta);      // Rotación sobre el sol
-        TransformGroup desplazamiento = createTranslate(distanciaAlPlaneta);  // Traslada a más lejos
-        TransformGroup rotacionPropia = createRotation(velocidadRotacion);      // Rotación propia
-        Satelite satelite = new Satelite((float) radio, texture);
-        rotacionPropia.addChild(satelite);
-        desplazamiento.addChild(rotacionPropia);
-        rotacionPlaneta.addChild(desplazamiento);
-        return rotacionPlaneta;
+        
+        astros.add(sol);
+        astros.add(tierra);
+        astros.add(luna);
     }
     
     private void crearLuces(BranchGroup bg){
@@ -102,25 +76,6 @@ public class Escena extends BranchGroup {
          aLight.setCapability(Light.ALLOW_STATE_WRITE);
          aLight.setEnable (true);
          bg.addChild(aLight);
-
-        /*
-        // PRIMERA LUZ
-         Color3f white;
-         Vector3f direction;
-         white = new Color3f (1.0f, 1.0f, 1.0f);
-         direction = new Vector3f (-4.0f, -2.0f, -3.0f);
-         aLight = new DirectionalLight (white, direction);
-         aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
-         aLight.setCapability(Light.ALLOW_STATE_WRITE);
-         aLight.setEnable (true);
-         bg.addChild(aLight);
-
-        // SEGUNDA LUZ
-         aLight = new DirectionalLight (new Color3f (0.7f, 0.7f, 0.7f), new Vector3f (3.0f, 2.0f, 0.0f));
-         aLight.setInfluencingBounds (new BoundingSphere (new Point3d (0.0, 0.0, 0.0), 100.0));
-         aLight.setCapability(Light.ALLOW_STATE_WRITE);
-         aLight.setEnable (true);
-         bg.addChild(aLight);*/
     }
     public Material getLuzEscena(){
         return luz;
@@ -146,54 +101,25 @@ public class Escena extends BranchGroup {
         this.removeChild(a);
     }
     
+    void setRotationOnOff (boolean onOff) {
+        if (onOff)
+            actPlay();
+        else
+            actPause();
+    }
+    
     public void actPlay(){
-//        for (int i = 0; i<this.numChildren(); i++ ){
-//            ((Astro) this.getChild(i)).actPlay();
-//        }
         for (Astro a : astros){
+            System.out.println("PLAY" + a.getClass().toString() );
             a.actPlay();
         }
     }
 
     public void actPause(){
         for (Astro a : astros){
+            System.out.println("PAUSE" + a.getClass().toString() );
             a.actPause();
         }
-    }
-    
-    private TransformGroup createRotation () {
-        return createRotation (4000);
-    }
-    private TransformGroup createRotation (int velocidad) {
-        // Se crea el grupo que contendrá la transformación de rotación
-        // Todo lo que cuelgue de él rotará
-        TransformGroup transform = new TransformGroup ();
-        // Se le permite que se cambie en tiempo de ejecución
-        transform.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        // Se crea la matriz de rotación
-        Transform3D yAxis = new Transform3D ();
-        // Se crea un interpolador, un valor numérico que se ira modificando en tiempo de ejecución
-        value = new Alpha (-1, Alpha.INCREASING_ENABLE, 0, 0, velocidad, 0, 0, 0, 0, 0);
-        // Se crea el interpolador de rotación, las figuras iran rotando
-        RotationInterpolator rotator = new RotationInterpolator (value, transform, yAxis,
-            0.0f, (float) Math.PI*2.0f);
-        
-        // Se le pone el entorno de activación y se activa
-        rotator.setSchedulingBounds(new BoundingSphere (new Point3d (0.0, 0.0, 0.0 ), 10000.0));
-        rotator.setEnable(true);
-        // Se cuelga del grupo de transformación y este se devuelve
-        transform.addChild(rotator);
-        return transform;
-    }
-    private TransformGroup createTranslate(double distancia){
-        TransformGroup transform = new TransformGroup ();
-        
-        Transform3D tr = new Transform3D ();
-        tr.setTranslation( new Vector3d(distancia,0,0) );
-        
-        transform.setTransform(tr);
-        
-        return transform;
     }
     
 }

@@ -145,13 +145,13 @@ public class Universo {
   public void setPrimitive (PrimitiveBranches pr) {
     scene.setPrimitive(pr);
   }
-  
-  public void setRotationOnOff (boolean onOff) {
-    scene.setRotationOnOff(onOff);
-  }
+ 
   
   public void showAxes (boolean onOff) {
     axes.showAxes(onOff);
   }
 */
+    public void setRotationOnOff (boolean onOff) {
+        scene.setRotationOnOff(onOff);
+    }
 }
