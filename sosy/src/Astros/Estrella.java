@@ -53,6 +53,7 @@ public class Estrella extends Astro {
             17.0f ));                            // Brillo
         TextureAttributes ta = new TextureAttributes();
         ta.setTextureMode(TextureAttributes.MODULATE);
+        
         ap.setTextureAttributes(ta);
         return ap;
     }

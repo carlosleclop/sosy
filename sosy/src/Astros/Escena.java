@@ -55,12 +55,21 @@ public class Escena extends BranchGroup {
         desplazamientoTierra.addChild(tierra);
         todo.addChild(desplazamientoTierra);*/
 
-        TransformGroup rotacionTierra = createRotation(10000);
-        TransformGroup desplazamientoTierra = createTranslate(40);
-        TransformGroup rotacionTierra2 = createRotation(3000);
+        TransformGroup rotacionTierra = createRotation(10000);      // Rotación sobre el sol
+        TransformGroup desplazamientoTierra = createTranslate(40);  // Traslada a más lejos
+        TransformGroup rotacionTierra2 = createRotation(3000);      // Rotación propia
         Planeta tierra = new Planeta(5.0f);
         rotacionTierra2.addChild(tierra);
         desplazamientoTierra.addChild(rotacionTierra2);
+        
+        Planeta luna = new Planeta(2.0f);
+        TransformGroup rotacionLunaSobreTierra = createRotation(1000);
+        TransformGroup desplazamientoLuna = createTranslate(10);
+        desplazamientoLuna.addChild(luna);
+        rotacionLunaSobreTierra.addChild(desplazamientoLuna);
+        
+        desplazamientoTierra.addChild(rotacionLunaSobreTierra);
+        
         rotacionTierra.addChild(desplazamientoTierra);
         todo.addChild(rotacionTierra);
 

@@ -35,14 +35,23 @@ public class Planeta extends AstroOpaco {
         bg.addChild(
                 new Sphere (radio, 
                     Primitive.GENERATE_NORMALS | Primitive.GENERATE_TEXTURE_COORDS | Primitive.ENABLE_APPEARANCE_MODIFY, 
-                    64, getAppearance() ));
+                    64, getAppearance("imgs/tierra.jpg") ));
+        this.addChild(bg);
+    }
+    Planeta(float radio, String textureString){
+        this.radio = radio;
+        bg = new BranchGroup();
+        bg.addChild(
+                new Sphere (radio, 
+                    Primitive.GENERATE_NORMALS | Primitive.GENERATE_TEXTURE_COORDS | Primitive.ENABLE_APPEARANCE_MODIFY, 
+                    64, getAppearance(textureString) ));
         this.addChild(bg);
     }
 
     
-    private Appearance getAppearance(){
+    private Appearance getAppearance(String textureString){
         Appearance ap = new Appearance();
-        Texture aTexture = new TextureLoader ("imgs/tierra.jpg", null).getTexture();
+        Texture aTexture = new TextureLoader (textureString, null).getTexture();
         ap.setTexture (aTexture);
 
 /*        ap.setMaterial (new Material (
