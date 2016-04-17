@@ -63,16 +63,18 @@ public class Planeta extends AstroOpaco {
         return satelites.remove(s);
     }
     public void addAnillo(Anillo a){
+        desplazamiento.addChild(a);
         anillos.add(a);
     }
     public boolean deleteAnillo(Anillo a){
+        desplazamiento.removeChild(a);
         return anillos.remove(a);
     }
     public ArrayList <Satelite> getSatelites(){
         return satelites;
-    }
+    }/*
     public ArrayList <Anillo> getAnillos(){
         return anillos;
-    }
+    }*/
     
 }
