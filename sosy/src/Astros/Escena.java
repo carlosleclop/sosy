@@ -50,14 +50,11 @@ public class Escena extends BranchGroup {
           Planeta tierra = new Planeta(5.0f, "imgs/tierra.jpg", 3000, 40, 10000);
             Satelite luna = new Satelite(2.0f, "imgs/moon.jpg", 0, 10, 1000);
           tierra.addSatelite(luna);
+          tierra.addAnillo(new Anillo(0.05,500,1000));
         sol.addPlaneta(tierra);
         
         todo.addChild(sol);
-        
-        Anillo anillo = new Anillo(0.05,500,1000);
-        //todo.addChild(anillo);
-        tierra.addAnillo(anillo);
-        
+                
         crearLuces(this);
         this.addChild(todo);
         
