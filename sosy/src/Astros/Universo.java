@@ -14,11 +14,16 @@ import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.Canvas3D;
 import javax.media.j3d.ColoringAttributes;
+import javax.media.j3d.Locale;
 import javax.media.j3d.Material;
+import javax.media.j3d.PhysicalBody;
+import javax.media.j3d.PhysicalEnvironment;
 import javax.media.j3d.Texture;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.View;
+import javax.media.j3d.ViewPlatform;
+import javax.media.j3d.VirtualUniverse;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
@@ -38,7 +43,60 @@ public class Universo {
     
   // ******* Constructor
   
-  public Universo (Canvas3D canvas) {
+  public Universo (Canvas3D canvas, Canvas3D canvas2) {
+      
+      VirtualUniverse universe = new VirtualUniverse ( ) ;
+      Locale locale = new Locale ( universe ) ;  
+      
+      Transform3D transformPlanta = new Transform3D ( ) ;
+    transformPlanta.lookAt (new Point3d (0 ,200 ,0) , new Point3d (0 ,0 ,0) , new Vector3d (0 ,0 ,-1) ) ;
+    
+transformPlanta.invert() ;
+TransformGroup tgPlanta = new TransformGroup ( transformPlanta ) ;
+ViewPlatform vpPlanta = new ViewPlatform ( ) ;
+tgPlanta.addChild ( vpPlanta ) ;
+
+
+
+View viewPlanta = new View ( ) ;
+viewPlanta.setPhysicalBody (new PhysicalBody ( ) ) ;
+viewPlanta.setPhysicalEnvironment (new PhysicalEnvironment ( ) ) ;
+viewPlanta.setProjectionPolicy(View.PARALLEL_PROJECTION) ;
+ viewPlanta.setScreenScalePolicy(View.SCALE_EXPLICIT);
+viewPlanta.setScreenScale(0.0032f) ;
+viewPlanta.setFrontClipDistance ( 0.3f ) ;
+viewPlanta.setBackClipDistance (100.0f) ;
+      
+      viewPlanta.addCanvas3D( canvas ) ;
+    viewPlanta.attachViewPlatform ( vpPlanta ) ;
+      
+      Transform3D transformPersp = new Transform3D ( ) ;
+        transformPersp.lookAt (new Point3d (50,50,1), new Point3d (0,0,0), new Vector3d (0,1,0));
+    transformPersp.invert( ) ;
+    TransformGroup tgPersp = new TransformGroup ( transformPersp ) ;
+    ViewPlatform vpPersp = new ViewPlatform ( ) ;
+    tgPersp.addChild ( vpPersp ) ;
+      
+    
+    View viewPersp = new View ( ) ;
+    viewPersp.setPhysicalBody (new PhysicalBody ( ) ) ;
+    viewPersp.setPhysicalEnvironment (new PhysicalEnvironment ( ) ) ;
+    viewPersp.setProjectionPolicy(View.PERSPECTIVE_PROJECTION) ;
+    viewPersp.setFieldOfView (Math . toRadians (45) ) ;
+    viewPersp.setFrontClipDistance ( 0.1 ) ;
+    viewPersp.setBackClipDistance (35) ;
+    
+    viewPersp.addCanvas3D( canvas2 ) ;
+    viewPersp.attachViewPlatform( vpPersp ) ;
+      
+      BranchGroup vistas = new BranchGroup ( ) ;
+        vistas.addChild ( tgPlanta ) ;
+    vistas.addChild ( tgPersp ) ;
+      
+      //vistas.compile();
+      
+      locale.addBranchGraph(vistas);
+      
     // Todo cuelga de un nodo raiz
     BranchGroup root = new BranchGroup();
     
@@ -56,8 +114,6 @@ public class Universo {
     BranchGroup bgGeometry = new BranchGroup();
     bgGeometry.addChild(sphere);
     background.setGeometry(bgGeometry);
-    
-    
     
     root.addChild(background);
     
@@ -80,13 +136,14 @@ public class Universo {
     
     
     // Se crea el universo. La parte de la vista
-    SimpleUniverse universe = createUniverse (canvas);
+    //SimpleUniverse universe = createUniverse (canvas2);
     
     
     
     // Se optimiza la escena y se cuelga del universo
     root.compile();
-    universe.addBranchGraph(root);
+    //universe.addBranchGraph(root);
+    locale.addBranchGraph(root);
   }
   
   // ******* Private

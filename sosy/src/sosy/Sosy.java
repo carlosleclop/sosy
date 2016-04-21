@@ -30,13 +30,18 @@ public class Sosy {
         Canvas3D canvas = new Canvas3D (SimpleUniverse.getPreferredConfiguration());
         // Se le da el tamaño deseado
         canvas.setSize(800, 600);
+        
+        Canvas3D canvas2 = new Canvas3D(SimpleUniverse.getPreferredConfiguration());
+        
+        canvas2.setSize(400,400);
 
         // Se crea el Universo con dicho Canvas3D
-        Universo universe = new Universo (canvas);
+        Universo universe = new Universo (canvas, canvas2);
+        
         // Se crea la GUI a partir del Canvas3D y del Universo
-        ControlWindow controlWindow = new ControlWindow (canvas, universe);
+        ControlWindow controlWindow2 = new ControlWindow (canvas, canvas2, universe);
         // Se muestra la ventana principal de la aplicación
-        controlWindow.showWindow ();
+        controlWindow2.showWindow ();
     }
   
 }

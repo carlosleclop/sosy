@@ -19,7 +19,7 @@ import Astros.*;
 public class ControlWindow extends JFrame {
   private Universo universe;
 
-  public ControlWindow(Canvas3D canvas, Universo anUniverse) {
+  public ControlWindow(Canvas3D canvas, Canvas3D canvas2, Universo anUniverse) {
     super();
     universe = anUniverse;
     initComponents();
@@ -32,6 +32,12 @@ public class ControlWindow extends JFrame {
     });
     Visualization visualization = new Visualization (this, false, canvas);
     visualization.setVisible(true);
+    
+    
+    //Segunda ventada
+    Visualization visualization2 = new Visualization (this, false, canvas2);
+    visualization2.setVisible(true);
+    
     pack();
   }
 
