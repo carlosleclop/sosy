@@ -5,6 +5,7 @@
  */
 package Astros;
 
+import com.sun.j3d.utils.geometry.Sphere;
 import com.sun.j3d.utils.image.TextureLoader;
 import javax.media.j3d.Alpha;
 import javax.media.j3d.Appearance;
@@ -82,4 +83,5 @@ abstract public class AstroOpaco extends Astro {
         return ap;
     }
 
+    
 }

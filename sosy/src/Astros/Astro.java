@@ -5,6 +5,7 @@
  */
 package Astros;
 
+import com.sun.j3d.utils.geometry.Sphere;
 import javax.media.j3d.Alpha;
 import javax.media.j3d.BoundingSphere;
 import javax.media.j3d.BranchGroup;
@@ -22,9 +23,14 @@ abstract public class Astro extends TransformGroup {
     float radio;
     Texture tx;
     TransformGroup rotacionPropia;
+    Sphere sp;
 
+    
     Alpha value;
 
+    public Sphere getSphere(){
+        return sp;
+    }
     public Alpha getValue(){
         return value;
     }

@@ -38,10 +38,12 @@ public class Planeta extends AstroOpaco {
         anillos = new ArrayList <> ();
         this.radio = radio;
         bg = new BranchGroup();
-        bg.addChild(
-                new Sphere (radio, 
+        
+        sp = new Sphere (radio, 
                     Primitive.GENERATE_NORMALS | Primitive.GENERATE_TEXTURE_COORDS | Primitive.ENABLE_APPEARANCE_MODIFY, 
-                    64, getAppearance(textureString) ));
+                    64, getAppearance(textureString) );
+        
+        bg.addChild( sp );
 
         crearRotacionPropia(velocidadRotacion);
         crearTranslacion(distanciaSol);
@@ -72,7 +74,8 @@ public class Planeta extends AstroOpaco {
     }
     public ArrayList <Satelite> getSatelites(){
         return satelites;
-    }/*
+    }
+    /*
     public ArrayList <Anillo> getAnillos(){
         return anillos;
     }*/
